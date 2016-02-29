@@ -1,9 +1,26 @@
 {
-     "name": "node-api",
-     "main": "server.js",
-     "dependencies": {
-         "express": "~4.0.0",
-         "mongoose": "~3.6.13",
-         "body-parser": "~1.0.1"
-     }
- }
+  "name": "node-api",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "ejs": "^2.4.1",
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "",
+  "version": "1.0.0",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackfoot24/blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blackfoot24/blog/issues"
+  },
+  "homepage": "https://github.com/blackfoot24/blog#readme"
+}

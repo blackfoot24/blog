@@ -1,19 +1,64 @@
 var express = require('express');
- var app = express();
- var bodyParser = require('body-parser');
- 
- app.use(bodyParser.urlencoded({ extended: true}));
- app.use(bodyParser.json());
- 
- var port = process.env.PORT || 9000;
- 
- var router = express.Router();
- 
- router.get('/', function(req, res){
- 	res.json({ message: 'Hooray! welcome to our api!' });
- });
- 
- app.use('/api', router);
- 
- app.listen(port);
- console.log('You rock on port ' + port);
+var app = express();
+var bodyParser = require('body-parser');
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/animals');
+
+var bearRouter = require('./routes/bears');
+
+var Bear = require('./models/bear');
+
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+
+app.use(express.static('public'));
+
+app.set('view engine', 'ejs');
+
+app.get('/', function(req, res){
+	res.render('index', {title: 'Hello World!'})
+});
+	
+app.get('/bears', function(req, res){
+	Bear.find(function(err, bears){
+		if(err){
+			console.log(err)
+		} else {
+			res.render('bears', { bears: bears})
+		}
+	})
+});
+
+app.get('/about', function(req, res){
+	var data = {};
+	data.title = 'About Page';
+	data.name = 'Teague';
+	data.time = new Date();
+	res.render('about', data);
+});
+
+app.get('/bears', function(req,res){
+    var data = {};
+    data.title = "Bears oh my!"
+
+    res.render('bears', data)
+});
+
+var port = process.env.PORT || 8080;
+
+var router = express.Router();
+
+router.use(function(req, res, next) {
+    console.log('Something is happening.');
+    next();
+});
+
+router.get('/', function(req, res){
+	res.json({ message: 'Hooray! welcome to our api!' });
+});
+
+app.use('/api', bearRouter);
+
+app.listen(port);
+console.log(' 🔥🔥🔥 Good things happen on port 🔥🔥🔥 ' + port);
